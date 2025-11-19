@@ -70,7 +70,16 @@ bun dev
 
 ### Environment Variables
 
-For AI sentence generation, you'll need to configure the Gemini API key. The app is designed to work with environment-based API key injection.
+For AI sentence generation, you'll need to configure the Gemini API key:
+
+1. Get your API key from [Google AI Studio](https://aistudio.google.com/app/apikey)
+2. Create a `.env.local` file in the root directory:
+```bash
+NEXT_PUBLIC_GEMINI_API_KEY=your_api_key_here
+```
+3. Restart your development server after adding the environment variable
+
+**Note**: The `NEXT_PUBLIC_` prefix is required for client-side components in Next.js. Make sure to add `.env.local` to your `.gitignore` (it's already included by default).
 
 ## Project Structure
 

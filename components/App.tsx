@@ -1,16 +1,17 @@
 "use client";
 
 import { useState, type ReactElement } from "react";
-import { ChevronLeft, Volume2, Sparkles, BookOpen, Grid, Image as ImageIcon } from "lucide-react";
+import { ChevronLeft, Volume2, Sparkles, BookOpen, Grid, Image as ImageIcon, CheckSquare } from "lucide-react";
 import { VOWELS } from "@/lib/constants";
 import PhonicsCard from "./PhonicsCard";
 import LetterGrid from "./LetterGrid";
 import WordGallery from "./WordGallery";
 import LongVowelTrainer from "./LongVowelTrainer";
 import BlendingTrain from "./BlendingTrain";
+import LetterSelector from "./LetterSelector";
 import MenuButton from "./MenuButton";
 
-type Screen = 'home' | 'vowels' | 'longVowels' | 'blending' | 'letters' | 'words';
+type Screen = 'home' | 'vowels' | 'longVowels' | 'blending' | 'letters' | 'words' | 'letterSelector';
 
 type ScreenConfig = {
   title: string;
@@ -69,6 +70,13 @@ export default function App() {
               color="bg-purple-50"
               onClick={() => setScreen('blending')} 
             />
+            <MenuButton 
+              icon={<CheckSquare className="text-pink-500" />} 
+              title="Custom Text Generator" 
+              sub="Сонгосон үсгээр текст үүсгэх" 
+              color="bg-pink-50"
+              onClick={() => setScreen('letterSelector')} 
+            />
           </div>
         </div>
       )
@@ -103,6 +111,11 @@ export default function App() {
       title: "Word Cards",
       color: "text-green-600",
       render: () => <WordGallery />
+    },
+    letterSelector: {
+      title: "Custom Text Generator",
+      color: "text-pink-600",
+      render: () => <LetterSelector />
     }
   };
 

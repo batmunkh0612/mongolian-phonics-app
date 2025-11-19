@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Volume2, ChevronLeft, ArrowRight, Sparkles, Play } from "lucide-react";
 import { FULL_ALPHABET } from "@/lib/constants";
 import { speak } from "@/lib/utils";
-import { API_URL_BASE, apiKey, SENTENCE_SCHEMA, type SentenceResponse } from "@/lib/api";
+import { API_URL_BASE, apiKey, SENTENCE_SCHEMA, isApiKeyConfigured, type SentenceResponse } from "@/lib/api";
 
 export default function WordGallery() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -24,6 +24,13 @@ export default function WordGallery() {
     setIsLoadingSentence(true);
     setSentenceError(null);
     setExampleSentence(null);
+
+    // Check if API key is configured
+    if (!isApiKeyConfigured()) {
+      setSentenceError("API key not configured. Please set NEXT_PUBLIC_GEMINI_API_KEY in your environment variables.");
+      setIsLoadingSentence(false);
+      return;
+    }
 
     const systemPrompt = "You are an expert Mongolian language tutor specializing in phonics. Your task is to generate one very short, simple, and grammatically correct Mongolian sentence using the provided word. Include a Romanized phonetic pronunciation and an accurate English translation. Respond only in the requested JSON format.";
     const userQuery = `Create a simple sentence using the Mongolian word: ${word}`;
@@ -51,7 +58,17 @@ export default function WordGallery() {
         });
 
         if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+          // Provide more helpful error messages
+          if (response.status === 403) {
+            throw new Error("API key is invalid or missing. Please check your NEXT_PUBLIC_GEMINI_API_KEY environment variable.");
+          } else if (response.status === 429) {
+            throw new Error("Rate limit exceeded. Please try again later.");
+          } else if (response.status === 400) {
+            const errorData = await response.json().catch(() => ({}));
+            throw new Error(`Invalid request: ${errorData.error?.message || 'Please check your API configuration'}`);
+          } else {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
         }
 
         const result = await response.json();

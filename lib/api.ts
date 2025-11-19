@@ -1,10 +1,17 @@
 // Gemini API Configuration
 
 export const GEMINI_MODEL = "gemini-2.5-flash-preview-09-2025";
-// The apiKey is left empty; the environment automatically handles insertion for the fetch call.
-// NOTE: In a real deployment, you would need to securely handle the API key.
-export const apiKey = "";
+
+// Get API key from environment variable
+// For client-side components, use NEXT_PUBLIC_ prefix
+export const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY || "";
+
 export const API_URL_BASE = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=`;
+
+// Helper to check if API key is configured
+export const isApiKeyConfigured = () => {
+  return apiKey.length > 0;
+};
 
 // Structure for the LLM response (Sentence Generator)
 export const SENTENCE_SCHEMA = {
@@ -19,6 +26,16 @@ export const SENTENCE_SCHEMA = {
 
 export interface SentenceResponse {
   sentence: string;
+  phonetic: string;
+  english: string;
+}
+
+export interface MultiSentenceResponse {
+  sentences: SentenceResponse[];
+}
+
+export interface StoryResponse {
+  story: string;
   phonetic: string;
   english: string;
 }
