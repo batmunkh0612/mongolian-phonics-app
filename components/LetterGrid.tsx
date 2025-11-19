@@ -14,7 +14,7 @@ export default function LetterGrid() {
         {FULL_ALPHABET.map((item, idx) => (
           <button
             key={idx}
-            onClick={() => speak(item.sound || item.letter)}
+            onClick={() => speak(item.sound)}
             className="aspect-square bg-white rounded-2xl border border-gray-100 shadow-sm flex items-center justify-center text-2xl font-bold text-gray-700 hover:border-blue-400 hover:text-blue-600 hover:shadow-md active:scale-95 transition-all"
           >
             {item.letter}

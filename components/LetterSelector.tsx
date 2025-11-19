@@ -221,11 +221,7 @@ export default function LetterSelector() {
                     </p>
                   </div>
                   <button
-                    onClick={() => {
-                      const selectedLettersText = Array.from(selectedLetters).join(", ");
-                      const prefix = `${selectedLettersText}. `;
-                      speak(prefix + generatedStory.story);
-                    }}
+                    onClick={() => speak(generatedStory.story)}
                     className="p-3 rounded-full bg-indigo-100 text-indigo-700 hover:bg-indigo-200 active:scale-95 transition-all shrink-0"
                     title="Play Story"
                   >

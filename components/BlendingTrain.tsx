@@ -28,6 +28,7 @@ export default function BlendingTrain() {
         const sound = (selectedConsonant.sound || selectedConsonant.letter) + (selectedVowel.sound || selectedVowel.letter);
         setBlended(result);
         setBlendedSound(sound);
+        console.log(sound);
         speak(sound);
         timeoutRef.current = null;
       }, 600);
@@ -78,7 +79,7 @@ export default function BlendingTrain() {
                 onClick={() => { 
                   setSelectedConsonant(c); 
                   setBlended(null); 
-                  speak((c.sound || c.letter) + "uh"); 
+                  speak((c.sound)); 
                 }} 
                 className={`shrink-0 w-16 h-16 rounded-2xl font-bold text-2xl border-b-4 transition-all
                   ${selectedConsonant === c 
@@ -100,7 +101,7 @@ export default function BlendingTrain() {
                 onClick={() => { 
                   setSelectedVowel(v); 
                   setBlended(null); 
-                  speak(v.sound || v.letter); 
+                  speak(v.sound); 
                 }}
                 className={`shrink-0 w-16 h-16 rounded-2xl font-bold text-2xl border-b-4 transition-all
                   ${selectedVowel === v 
